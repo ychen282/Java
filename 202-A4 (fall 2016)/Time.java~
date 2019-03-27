@@ -1,0 +1,33 @@
+public class Time{
+  private int hour;
+  private int minute;
+  private int second;
+  
+  public Time(int hour, int minute, int second){
+    this.hour = hour;
+    this.minute = minute;
+    this.second = second;
+  }
+  
+  public int getHour(){
+    return this.hour;
+  }
+  
+  public int getMinute(){
+    return this.minute;
+  }
+  
+  public int getSecond(){
+    return this.second;
+  }
+  
+  public static Time getCurrentTime1(){
+    Time x = new Time(1,2,3);
+    return x;
+  }
+  
+  public static Time getCurrentTime2(){
+    Time y = new Time(2,3,4);
+    return y;
+  }
+}

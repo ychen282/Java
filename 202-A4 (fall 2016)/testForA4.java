@@ -1,0 +1,58 @@
+public class testForA4{
+  public static void main(String[] args){
+    int[][] image;
+    try{
+      image = readImage("image.pnm");
+      Image picture = new Image
+      for(int i=0; i<image.length; i++){
+        for(int j=0; j<image[i].length; j++){
+          picture.toGrey();
+        }
+      }
+      
+      writeImage("image-copy.pbm",image);
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+  }
+  
+  public static void writeImage(String outName, int[][] values) throws IOException{
+    //writes a pnm file
+    FileWriter fw = new FileWriter(outName);//creates a file writer
+    BufferedWriter bw = new BufferedWriter(fw);//creates a buffered writer
+    
+    bw.write("P3 \n");
+    int height = values.length;
+    int width = values[0].length;
+    bw.write(width + " " + height + "\n");
+    for(int i=0; i<values.length; i++){
+      for(int j=0; j<values[i].length; j++){
+        bw.write(values[i][j]+" ");
+      }
+      bw.write("\n");
+    }
+    
+    bw.close();
+    fw.close();
+  }
+   public static int[][] readImage(String filename) throws IOException{
+    Scanner sc = new Scanner(new File(filename));
+    int[][] values;
+    String temp = sc.nextLine();//skip the P1 header
+    temp = sc.nextLine();//skip the comment
+    
+    int width = sc.nextInt();
+    int height = sc.nextInt();
+    values = new int[height][width];//be careful about the sequence of height and width
+    
+    for(int i=0; i<values.length; i++){
+      for(int j=0; j<values[i].length; j++){
+        values[i][j] = sc.nextInt();
+      }
+    }
+    sc.close();
+    return values;
+    
+  }
+  
+}

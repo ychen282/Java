@@ -1,0 +1,88 @@
+import java.util.Scanner;
+import java.io.*;
+public class ImageFileUtilities{
+  public static Pixel[][] read(String filename) throws IOException{
+    Scanner sc = new Scanner(new File(filename));
+    String temp = sc.nextLine();
+    Pixel[][] numbers = new Pixel[1][1];
+    
+    if(temp.equals("P2")){
+       temp = sc.nextLine();
+       while(sc.hasNext("#")){
+      temp = sc.nextLine();//skip the comment
+      }
+      int width = sc.nextInt();
+      int height = sc.nextInt();
+      int maxRange = sc.nextInt();
+      Pixel[][] numTemp = new Pixel[height][width];
+      for(int i=0; i<numTemp.length; i++){
+        for(int j=0; j<numTemp[i].length; j++){
+          numTemp[i][j] = new Pixel(sc.nextInt());
+        }
+      }
+      numbers = numTemp;
+    }
+    
+    if(temp.equals("P3")){
+      temp = sc.nextLine();
+       while(sc.hasNext("#")){
+      temp = sc.nextLine();//skip the comment
+      }
+      int width = sc.nextInt();
+      int height = sc.nextInt();
+      int maxRange = sc.nextInt();
+      Pixel[][]numTemp = new Pixel[height][width];
+      for(int i=0; i<numTemp.length; i++){
+        for(int j=0; j<numTemp[i].length; j++){
+          numTemp[i][j] = new Pixel(sc.nextInt(),sc.nextInt(),sc.nextInt());
+        }
+      }
+      numbers = numTemp;
+    }
+    sc.close();
+    return numbers;
+  }
+  
+  public static void writePnm(Image x, String filename) throws IOException{
+    //writes a pnm file
+    FileWriter fw = new FileWriter(filename);//creates a file writer
+    BufferedWriter bw = new BufferedWriter(fw);//creates a buffered writer
+    
+    bw.write("P3 \n");
+    int height = x.getHeight();
+    int width = x.getWidth();
+    bw.write("#" + "\n");
+    bw.write(width + " " + height + "\n");
+    for(int i=0; i<height; i++){
+      for(int j=0; j<width; j++){
+        bw.write(x.getPixel(i, j).getRed() + " " + x.getPixel(i, j).getGreen() + " " + x.getPixel(i, j).getBlue() + " ");
+      }
+      bw.write("\n");
+    }
+    
+    bw.close();
+    fw.close();
+  }
+
+  public static void writePgm(Image x, String filename) throws IOException{
+    //writes a pgm file
+    FileWriter fw = new FileWriter(filename);//creates a file writer
+    BufferedWriter bw = new BufferedWriter(fw);//creates a buffered writer
+    
+    bw.write("P2 \n");
+    int height = x.getHeight();
+    int width = x.getWidth();
+    bw.write(width + " " + height + "\n");
+    for(int i=0; i<height; i++){
+      for(int j=0; j<width; j++){
+        bw.write(x.getPixel(i, j).grey() + " ");
+      }
+      bw.write("\n");
+    }
+    
+    bw.close();
+    fw.close();
+  }
+
+  
+}

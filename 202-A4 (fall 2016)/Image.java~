@@ -1,0 +1,93 @@
+public class Image{
+  private String metadata;
+  private int maxRange;
+  private Pixel[][] data;
+  
+  public Image(String metadata, int maxRange, Pixel[][] data){
+    if(maxRange<0){//test?
+      throw new IllegalArgumentException("Invalid input! maxRange can not be negative.");
+    }
+    this.metadata = metadata;
+    this.maxRange = maxRange;
+    //copy the input Pixel[][] array and its sub-arrays
+    Pixel[][] arrayCopy = new Pixel[data.length][data[0].length];
+    for(int i=0; i<data.length; i++){
+      for(int j=0; j<data[i].length; j++){
+        arrayCopy[i][j] = data[i][j];
+      }
+    }
+    this.data = arrayCopy;
+  }
+  
+  public String getMetadata(){
+    return this.metadata;
+  }
+  
+  public int getMaxRange(){
+    return this.maxRange;
+  }
+  
+  public int getWidth(){
+    return this.data[0].length;
+  }
+  
+  public int getHeight(){
+    return this.data.length;
+  }
+  
+  public Pixel getPixel(int i, int j){
+    return this.data[i][j];
+  }
+  
+  public void flip(boolean horizontal){
+    if(horizontal){
+      for(int i=0; i<this.data.length; i++){
+        for(int j=0; j<(this.data[0].length)/2; j++){
+          Pixel temp = new Pixel(0,0,0);
+          this.data[i][j] = temp;
+          this.data[i][j] = this.data[i][data[0].length-1-j];
+          this.data[i][data[0].length-1-j] = temp;
+        }
+      }
+    }
+    else{
+      for(int j=0; j<this.data[0].length; j++){
+        for(int i=0; i<(this.data.length)/2; i++){
+         Pixel temp = new Pixel(0,0,0);
+         this.data[i][j] = temp;
+         this.data[i][j] = this.data[data.length-1-i][j];
+         this.data[data.length-1-i][j] = temp;
+        }
+      }
+    }
+  }
+  
+  //turn a color Image into a grey scale one
+  public void toGrey(){
+    for(int i=0; i<data.length; i++){
+      for(int j=0; j<data[0].length; j++){
+        this.data[i][j].grey();
+      }
+    }
+  }//test?
+  
+  public void crop(int startX, int startY, int endX, int endY){
+    if(startX<0||startX>this.data[0].length||startY<0||startY>this.data.length||
+       endX<0||endX>data[0].length||endY<0||endY>this.data.length||startX>endX||startY>endY){
+      throw new IllegalArgumentException("Invalid input!");
+    }
+    Pixel[][] cropImage = new Pixel[endY-startY][endX-startX];
+    for(int i=0; i<(endY-startY); i++){
+      for(int j=0; j<(endX-startX); j++){
+        cropImage[i][j] = data[startY+i][startX+j];
+      }
+    }
+    this.data = cropImage;
+    
+  }
+  
+  
+  
+  
+  
+}

@@ -1,0 +1,28 @@
+import java.util.Scanner;
+
+public class Stopwatch{
+  private boolean running = false;
+  private Time startTime;
+  public void startStop(){
+    if(this.running == false){
+      this.running = true;
+      this.startTime = Time.getCurrentTime1();
+    }
+    else{
+      this.running = false;
+      int currentTime = Time.getCurrentTime2().getHour()*3600 + Time.getCurrentTime2().getMinute()*60 + Time.getCurrentTime2().getSecond();
+      int initialTime = this.startTime.getHour()*3600+this.startTime.getMinute()*60+this.startTime.getSecond();
+      System.out.println(currentTime-initialTime+" seconds have elapsed.");
+    }
+  }
+  
+  
+  public static void main(String[] args){
+    Stopwatch watch = new Stopwatch();
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Enter any String to stop the Stopwatch.");
+    watch.startStop();
+    String s = sc.nextLine();
+    watch.startStop();
+  }
+}

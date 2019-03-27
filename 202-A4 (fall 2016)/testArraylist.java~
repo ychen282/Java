@@ -1,0 +1,6 @@
+public class testArraylist{
+  public static void main(String[] args){
+    Arraylist d = new ArrayList<Double>();
+    System.out.println(d);
+  }
+}
